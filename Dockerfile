@@ -1,7 +1,9 @@
 FROM debian:stable AS builder
-ENV QUSB2SNES_TAG=v0.7.19.3
 RUN apt-get update && apt-get -q -y --no-install-recommends install build-essential qt5-default qt5-qmake qtbase5-dev qtbase5-dev-tools qtdeclarative5-dev libqt5serialport5-dev libqt5websockets5-dev git curl ca-certificates
 WORKDIR /workspace
+#ARG QUSB2SNES_TAG=v0.7.19.3
+ARG QUSB2SNES_TAG=master
+ENV QUSB2SNES_TAG=${QUSB2SNES_TAG}
 RUN git clone https://github.com/Skarsnik/QUsb2snes.git --depth 1 --branch ${QUSB2SNES_TAG}
 WORKDIR /workspace/QUsb2snes
 ENV CFLAGS="-pipe -O2 -fstack-protector-strong --param=ssp-buffer-size=4 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -fPIE -fstack-clash-protection -fcf-protection"
