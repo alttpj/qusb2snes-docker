@@ -15,6 +15,7 @@ RUN make -j$(cat /proc/cpuinfo | grep 'processor.*:' | wc -l)
 FROM debian:stable-slim
 WORKDIR /app
 COPY --from=builder /workspace/QUsb2snes/QUsb2Snes /app/
+RUN mkdir -p /root/.local/share/QUsb2Snes && ln -s /dev/stdout /root/.local/share/QUsb2Snes/log.txt
 ARG CACHEBUST=1
 RUN ldd /app/QUsb2Snes
 ENTRYPOINT ["./QUsb2Snes", "-nogui"]
