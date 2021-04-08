@@ -6,9 +6,6 @@ ARG QUSB2SNES_TAG=master
 ENV QUSB2SNES_TAG=${QUSB2SNES_TAG}
 RUN git clone https://github.com/Skarsnik/QUsb2snes.git --depth 1 --branch ${QUSB2SNES_TAG}
 WORKDIR /workspace/QUsb2snes
-ENV CFLAGS="-pipe -O2 -fstack-protector-strong --param=ssp-buffer-size=4 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -fPIE -fstack-clash-protection -fcf-protection"
-ENV CXXFLAGS="${CFLAGS}"
-ENV LDFLAGS="-Wl,-z,relro -Wl,-z,now -Wl,-pie -Wl,--hash-style=gnu -Wl,--no-copy-dt-needed-entries -Wl,--as-needed"
 RUN qmake QUSB2SNES_NOGUI=1 CONFIG+='release'
 RUN make -j$(cat /proc/cpuinfo | grep 'processor.*:' | wc -l)
 
